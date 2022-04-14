@@ -13,7 +13,7 @@ app.secret_key = '9PquY4BRbATO2e0A'
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 
-API_KEY = os.environ['dDdvswMGmleusEzcxbAGX7oauM9HTBPG']
+API_KEY = os.environ['TICKETMASTER_KEY']
 
 
 @app.route('/')
@@ -41,7 +41,7 @@ def find_afterparties():
     sort = request.args.get('sort', '')
 
     url = 'https://app.ticketmaster.com/discovery/v2/events'
-    payload = {'apikey': 'dDdvswMGmleusEzcxbAGX7oauM9HTBPG'}
+    payload = {'apikey': 'TICKETMASTER_KEY'}
 
     # TODO: Make a request to the Event Search endpoint to search for events
     #
