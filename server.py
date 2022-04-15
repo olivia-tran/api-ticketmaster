@@ -58,9 +58,9 @@ def find_afterparties():
     res = requests.get(
         url, params=payload)
     data = res.json()
-
-    with open('data', 'w') as f:
-        json.dump(data, f)
+    # a_type = type(data)
+    # with open('data', 'w') as f:
+    #     json.dump(data, f)
     # print(response_file)
 # - Use form data from the user to populate any search parameters
 #
@@ -71,9 +71,11 @@ def find_afterparties():
 # - Replace the empty list in `events` with the list of events from your
 #   search results
 
-    data = {'Test': ['This is just some test data'],
-            'page': {'totalElements': 1}}
+    # data = {'Test': ['This is just some test data'],
+    #         'page': {'totalElements': 1}}
     events = []
+    for event in data['_embedded']['events']:
+        events.append(event)
 
     return render_template('search-results.html',
                            pformat=pformat,
