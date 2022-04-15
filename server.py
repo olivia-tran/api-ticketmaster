@@ -1,8 +1,10 @@
+# from email.message import _PayloadType
 from flask import Flask, render_template, request
 
 from pprint import pformat
 import os
 import requests
+import json
 
 
 app = Flask(__name__)
@@ -41,18 +43,33 @@ def find_afterparties():
     sort = request.args.get('sort', '')
 
     url = 'https://app.ticketmaster.com/discovery/v2/events'
-    payload = {'apikey': 'TICKETMASTER_KEY'}
+#    payload = {'apikey': 'TICKETMASTER_KEY'}
+    payload = {
+        'keyword': keyword,
+        'postalCode': postalcode,
+        'radius': radius,
+        'unit': unit,
+        'sort': sort,
+        'apikey': API_KEY
 
-    # TODO: Make a request to the Event Search endpoint to search for events
-    #
-    # - Use form data from the user to populate any search parameters
-    #
-    # - Make sure to save the JSON data from the response to the `data`
-    #   variable so that it can display on the page. This is useful for
-    #   debugging purposes!
-    #
-    # - Replace the empty list in `events` with the list of events from your
-    #   search results
+    }
+
+# TODO: Make a request to the Event Search endpoint to search for events
+    res = requests.get(
+        url, params=payload)
+    data = res.json()
+
+    with open('data', 'w') as f:
+        json.dump(data, f)
+    # print(response_file)
+# - Use form data from the user to populate any search parameters
+#
+# - Make sure to save the JSON data from the response to the `data`
+#   variable so that it can display on the page. This is useful for
+#   debugging purposes!
+#
+# - Replace the empty list in `events` with the list of events from your
+#   search results
 
     data = {'Test': ['This is just some test data'],
             'page': {'totalElements': 1}}
@@ -69,7 +86,7 @@ def find_afterparties():
 # ===========================================================================
 
 
-@app.route('/event/<id>')
+@ app.route('/event/<id>')
 def get_event_details(id):
     """View the details of an event."""
 
