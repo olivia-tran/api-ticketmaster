@@ -44,7 +44,6 @@ def find_afterparties():
     sort = request.args.get('sort', '')
 
     url = 'https://app.ticketmaster.com/discovery/v2/events'
-#    payload = {'apikey': 'TICKETMASTER_KEY'}
     payload = {
         'keyword': keyword,
         'postalCode': postalcode,
@@ -98,11 +97,9 @@ def get_event_details(id):
 
     # TODO: Finish implementing this view function
 
-    url = 'https://app.ticketmaster.com/discovery/v2/events/{id}'
+    url = f'https://app.ticketmaster.com/discovery/v2/events/{id}'
     payload = {
-        'apikey': API_KEY
-
-    }
+        'apikey': API_KEY}
     res = requests.get(
         url, params=payload)
     event = res.json()
