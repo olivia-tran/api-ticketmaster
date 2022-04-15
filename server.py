@@ -1,4 +1,5 @@
 # from email.message import _PayloadType
+from multiprocessing.synchronize import Event
 from flask import Flask, render_template, request
 
 from pprint import pformat
@@ -8,7 +9,7 @@ import json
 
 
 app = Flask(__name__)
-app.secret_key = '9PquY4BRbATO2e0A'
+app.secret_key = 'SOMETHINGSECURE'
 
 # This configuration option makes the Flask interactive debugger
 # more useful (you should remove this line in production though)
@@ -74,8 +75,11 @@ def find_afterparties():
     # data = {'Test': ['This is just some test data'],
     #         'page': {'totalElements': 1}}
     events = []
-    for event in data['_embedded']['events']:
-        events.append(event)
+    if '_embedded' in data:
+        for event in data['_embedded']['events']:
+            events.append(event)
+    else:
+        events = []
 
     return render_template('search-results.html',
                            pformat=pformat,
@@ -94,7 +98,23 @@ def get_event_details(id):
 
     # TODO: Finish implementing this view function
 
-    return render_template('event-details.html')
+    url = 'https://app.ticketmaster.com/discovery/v2/events/{id}'
+    payload = {
+        'apikey': API_KEY
+
+    }
+    res = requests.get(
+        url, params=payload)
+    event = res.json()
+    # with open('event', 'w') as f:
+    #     json.dump(event, f)
+
+    if '_embedded' in event:
+        venues = event['_embedded']['venues']
+    else:
+        venues = []
+
+    return render_template('event-details.html', event=event, venues=venues)
 
 
 if __name__ == '__main__':
