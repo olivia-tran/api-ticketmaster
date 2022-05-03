@@ -11,8 +11,7 @@ import json
 app = Flask(__name__)
 app.secret_key = 'SOMETHINGSECURE'
 
-# This configuration option makes the Flask interactive debugger
-# more useful (you should remove this line in production though)
+
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 
@@ -63,11 +62,6 @@ def find_afterparties():
     #     json.dump(data, f)
     # print(response_file)
 # - Use form data from the user to populate any search parameters
-#
-# - Make sure to save the JSON data from the response to the `data`
-#   variable so that it can display on the page. This is useful for
-#   debugging purposes!
-#
 # - Replace the empty list in `events` with the list of events from your
 #   search results
 
@@ -94,8 +88,6 @@ def find_afterparties():
 @ app.route('/event/<id>')
 def get_event_details(id):
     """View the details of an event."""
-
-    # TODO: Finish implementing this view function
 
     url = f'https://app.ticketmaster.com/discovery/v2/events/{id}'
     payload = {
